@@ -8,11 +8,14 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { ReactNode, createContext, useState, FC } from "react";
+import { ReactNode, createContext, useState, FC, useEffect } from "react";
 
 interface AuthContextType {
   user: User | null;
+  userData: object | undefined;
+  token: string | undefined;
   loader: boolean;
   googleAuth: () => Promise<UserCredential>;
   register: (email: string, pass: string) => Promise<UserCredential>;
@@ -31,6 +34,8 @@ interface AuthContextProviderProps {
 
 const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<object | undefined>(undefined);
+  const [token, setToken] = useState<string | undefined>(undefined);
   const [loader, setLoader] = useState<boolean>(true);
 
   const axios = useAxios();
@@ -55,9 +60,45 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
     return signOut(auth);
   };
 
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+
+      if (currentUser) {
+        axios
+          .post("/authentication/login", { userEmail: currentUser?.email })
+          .then(({ data }) => {
+            setUserData(data.userData);
+            setToken(data.token);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        setUserData(undefined);
+        setToken(undefined);
+      }
+
+      setLoader(false);
+    });
+
+    return () => {
+      unSubscribe();
+    };
+  }, [axios]);
+
   return (
     <AuthContext.Provider
-      value={{ register, login, logOut, googleAuth, loader, user }}
+      value={{
+        register,
+        login,
+        logOut,
+        googleAuth,
+        loader,
+        user,
+        userData,
+        token,
+      }}
     >
       {children}
     </AuthContext.Provider>
