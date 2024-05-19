@@ -12,11 +12,23 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthenticationRegisterImport } from './routes/authentication/register'
+import { Route as AuthenticationLoginImport } from './routes/authentication/login'
 
 // Create/Update Routes
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticationRegisterRoute = AuthenticationRegisterImport.update({
+  path: '/authentication/register',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticationLoginRoute = AuthenticationLoginImport.update({
+  path: '/authentication/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -31,11 +43,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/authentication/login': {
+      id: '/authentication/login'
+      path: '/authentication/login'
+      fullPath: '/authentication/login'
+      preLoaderRoute: typeof AuthenticationLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/authentication/register': {
+      id: '/authentication/register'
+      path: '/authentication/register'
+      fullPath: '/authentication/register'
+      preLoaderRoute: typeof AuthenticationRegisterImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ IndexRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexRoute,
+  AuthenticationLoginRoute,
+  AuthenticationRegisterRoute,
+})
 
 /* prettier-ignore-end */
