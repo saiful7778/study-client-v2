@@ -14,7 +14,6 @@ function MainLayout() {
     <div className="container">
       <header>
         <Navbar />
-        {/* {location.pathname === "/" ? <Banner /> : ""} */}
       </header>
       <Outlet />
       <TanStackRouterDevtools />
