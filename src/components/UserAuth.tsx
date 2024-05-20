@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { useNavigate } from "@tanstack/react-router";
 import Button from "@/components/ui/button";
 import useAuth from "@/hooks/useAuth";
 import cn from "@/lib/utils/cn";
+import useNavigatePage from "@/hooks/useNavigatePage";
 
 interface UserAuthProps {
   className?: string;
@@ -10,11 +10,7 @@ interface UserAuthProps {
 
 const UserAuth: FC<UserAuthProps> = ({ className }) => {
   const { user, logOut } = useAuth();
-  const navigate = useNavigate();
-
-  const handleNavigate = async (link: "login" | "register") => {
-    await navigate({ to: `/authentication/${link}` });
-  };
+  const navigate = useNavigatePage();
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
@@ -41,11 +37,11 @@ const UserAuth: FC<UserAuthProps> = ({ className }) => {
         </>
       ) : (
         <>
-          <Button onClick={() => handleNavigate("login")} size="sm">
+          <Button onClick={() => navigate("/authentication/login")} size="sm">
             Login
           </Button>
           <Button
-            onClick={() => handleNavigate("register")}
+            onClick={() => navigate("/authentication/register")}
             size="sm"
             variant="outline"
           >
