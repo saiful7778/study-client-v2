@@ -1,17 +1,24 @@
+import Password from "@/components/Password";
+import Spinner from "@/components/Spinner";
 import Button from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import Form from "@/components/ui/form";
 import Input from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/useToast";
+import useAuth from "@/hooks/useAuth";
 import { signInSchema } from "@/lib/schemas/signInSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "@tanstack/react-router";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import errorStatus from "@/lib/errorStatus";
 
 const SignIn: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -20,16 +27,23 @@ const SignIn: FC = () => {
       password: "",
     },
   });
+  const handleSubmit = async (data: z.infer<typeof signInSchema>) => {
+    try {
+      setLoading((prop) => !prop);
+      await signIn(data.email, data.password);
 
-  const handleSubmit = (data: z.infer<typeof signInSchema>) => {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+      toast({
+        title: `Sign in successfully!`,
+      });
+      navigate({ to: "/" });
+    } catch (err) {
+      if (err instanceof Error) {
+        errorStatus(err);
+      }
+    } finally {
+      setLoading((prop) => !prop);
+      form.reset();
+    }
   };
 
   return (
@@ -71,9 +85,8 @@ const SignIn: FC = () => {
                 <Form.item>
                   <Form.label>Password</Form.label>
                   <Form.control>
-                    <Input
+                    <Password
                       placeholder="Password"
-                      type="password"
                       {...field}
                       disabled={loading}
                     />
@@ -83,7 +96,7 @@ const SignIn: FC = () => {
               )}
             />
             <Button className="w-full" type="submit" disabled={loading}>
-              {loading ? <span className="spinner"></span> : "Sign In"}
+              {loading ? <Spinner /> : "Sign In"}
             </Button>
           </form>
         </Form>
