@@ -37,15 +37,15 @@ const UserAuth: FC<UserAuthProps> = ({ className }) => {
         </>
       ) : (
         <>
-          <Button onClick={() => navigate("/authentication/login")} size="sm">
-            Login
+          <Button onClick={() => navigate("/sign-in")} size="sm">
+            Sign in
           </Button>
           <Button
-            onClick={() => navigate("/authentication/register")}
+            onClick={() => navigate("/sign-up")}
             size="sm"
             variant="outline"
           >
-            Register
+            Sign up
           </Button>
         </>
       )}

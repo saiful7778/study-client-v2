@@ -11,25 +11,31 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthenticationRegisterImport } from './routes/authentication/register'
-import { Route as AuthenticationLoginImport } from './routes/authentication/login'
+import { Route as AuthSignUpImport } from './routes/_auth/sign-up'
+import { Route as AuthSignInImport } from './routes/_auth/sign-in'
 
 // Create/Update Routes
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticationRegisterRoute = AuthenticationRegisterImport.update({
-  path: '/authentication/register',
-  getParentRoute: () => rootRoute,
+const AuthSignUpRoute = AuthSignUpImport.update({
+  path: '/sign-up',
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthenticationLoginRoute = AuthenticationLoginImport.update({
-  path: '/authentication/login',
-  getParentRoute: () => rootRoute,
+const AuthSignInRoute = AuthSignInImport.update({
+  path: '/sign-in',
+  getParentRoute: () => AuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -43,19 +49,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/authentication/login': {
-      id: '/authentication/login'
-      path: '/authentication/login'
-      fullPath: '/authentication/login'
-      preLoaderRoute: typeof AuthenticationLoginImport
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/authentication/register': {
-      id: '/authentication/register'
-      path: '/authentication/register'
-      fullPath: '/authentication/register'
-      preLoaderRoute: typeof AuthenticationRegisterImport
-      parentRoute: typeof rootRoute
+    '/_auth/sign-in': {
+      id: '/_auth/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof AuthSignInImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/sign-up': {
+      id: '/_auth/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof AuthSignUpImport
+      parentRoute: typeof AuthImport
     }
   }
 }
@@ -64,8 +77,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  AuthenticationLoginRoute,
-  AuthenticationRegisterRoute,
+  AuthRoute: AuthRoute.addChildren({ AuthSignInRoute, AuthSignUpRoute }),
 })
 
 /* prettier-ignore-end */

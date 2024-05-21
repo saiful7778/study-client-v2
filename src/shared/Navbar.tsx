@@ -86,8 +86,11 @@ const NavLink: FC<NavLinkProps> = ({
   return (
     <li className={cn(hasDropDown && "group relative")}>
       <Link
-        className="inline-flex items-center gap-2 font-medium capitalize"
+        className="inline-flex items-center gap-2 capitalize"
         to={path}
+        activeProps={{
+          className: "font-bold",
+        }}
       >
         {navName}
         {hasDropDown && (

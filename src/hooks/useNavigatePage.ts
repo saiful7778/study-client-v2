@@ -1,11 +1,15 @@
 import { FileRoutesByPath, useNavigate } from "@tanstack/react-router";
 
-type FileRoutePaths = keyof FileRoutesByPath;
+type ExtractPaths<T> = T extends { [K in keyof T]: { path: infer P } }
+  ? P extends ""
+    ? never
+    : P
+  : never;
 
 export default function useNavigatePage() {
   const navigate = useNavigate();
 
-  return async (link: FileRoutePaths) => {
+  return async (link: ExtractPaths<FileRoutesByPath>) => {
     await navigate({ to: link });
   };
 }

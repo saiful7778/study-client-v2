@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
+  signOut as logOut,
   onAuthStateChanged,
 } from "firebase/auth";
 import { ReactNode, createContext, useState, FC, useEffect } from "react";
@@ -18,9 +18,9 @@ interface AuthContextType {
   token: string | undefined;
   loader: boolean;
   googleAuth: () => Promise<UserCredential>;
-  register: (email: string, pass: string) => Promise<UserCredential>;
-  login: (email: string, pass: string) => Promise<UserCredential>;
-  logOut: () => Promise<void>;
+  signUp: (email: string, pass: string) => Promise<UserCredential>;
+  signIn: (email: string, pass: string) => Promise<UserCredential>;
+  singOut: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -45,19 +45,19 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const register = (email: string, pass: string) => {
+  const signUp = (email: string, pass: string) => {
     setLoader(true);
     return createUserWithEmailAndPassword(auth, email, pass);
   };
 
-  const login = (email: string, pass: string) => {
+  const signIn = (email: string, pass: string) => {
     setLoader(true);
     return signInWithEmailAndPassword(auth, email, pass);
   };
 
-  const logOut = () => {
+  const singOut = () => {
     setLoader(true);
-    return signOut(auth);
+    return logOut(auth);
   };
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
 
       if (currentUser) {
         axios
-          .post("/authentication/login", { userEmail: currentUser?.email })
+          .post("/authentication/signIn", { userEmail: currentUser?.email })
           .then(({ data }) => {
             setUserData(data.userData);
             setToken(data.token);
@@ -90,9 +90,9 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        register,
-        login,
-        logOut,
+        signUp,
+        signIn,
+        singOut,
         googleAuth,
         loader,
         user,

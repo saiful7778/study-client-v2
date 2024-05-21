@@ -1,22 +1,28 @@
+import { Toaster } from "@/components/ui/toaster";
+import { Loader } from "@/pages/Loader";
 import Navbar from "@/shared/Navbar";
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import {
+  Outlet,
+  createRootRoute,
+  useRouterState,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import { FC } from "react";
 
-export const Route = createRootRoute({
-  component: MainLayout,
-  notFoundComponent: () => {
-    return <p>This setting page doesn't exist!</p>;
-  },
-});
-
-function MainLayout() {
+const MainLayout: FC = () => {
+  const status = useRouterState({ select: (s) => s.status });
   return (
     <div className="container">
       <header>
         <Navbar />
       </header>
-      <Outlet />
+      {status === "pending" ? <Loader /> : <Outlet />}
+      <Toaster />
       <TanStackRouterDevtools />
     </div>
   );
-}
+};
+
+export const Route = createRootRoute({
+  component: MainLayout,
+});

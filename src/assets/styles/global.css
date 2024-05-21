@@ -20,7 +20,7 @@
     --accent-foreground: 24 9.8% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 70%;
+    --border: 20 5.9% 90%;
     --input: 20 5.9% 90%;
     --ring: 24.6 95% 53.1%;
     --radius: 0.5rem;
@@ -61,5 +61,8 @@
 @layer components {
   .container {
     @apply p-2 xl:w-4/5;
+  }
+  .link {
+    @apply text-blue-600 underline hover:text-blue-500;
   }
 }
