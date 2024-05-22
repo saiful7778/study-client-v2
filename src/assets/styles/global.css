@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --footer: theme("backgroundColor.gray.300");
     --background: 0 0% 100%;
     --foreground: 20 14.3% 4.1%;
     --card: 0 0% 100%;
@@ -27,6 +28,7 @@
   }
 
   .dark {
+    --footer: theme("backgroundColor.gray.900");
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
     --card: 20 14.3% 4.1%;
@@ -63,6 +65,10 @@
     @apply p-2 xl:w-4/5;
   }
   .link {
-    @apply text-blue-600 underline hover:text-blue-500;
+    @apply text-sky-600 underline hover:text-sky-500;
   }
+}
+
+footer {
+  background: var(--footer);
 }

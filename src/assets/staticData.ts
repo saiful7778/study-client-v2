@@ -57,19 +57,16 @@ export const faqData = [
 ];
 
 export const footerNavLinks = [
-  { _id: "ftnv1", navName: "all assignment", path: "/assignments" },
+  { navName: "all assignment", path: "/assignments" },
   {
-    _id: "ftnv2",
     navName: "create assignment",
     path: "/assignments/create_new",
   },
   {
-    _id: "ftnv3",
     navName: "my assignments",
     path: "/assignments/my_assignments",
   },
   {
-    _id: "ftnv4",
     navName: "submitted assignments",
     path: "/assignments/submit",
   },
