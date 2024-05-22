@@ -3,7 +3,7 @@ import { FC } from "react";
 
 const AuthLayout: FC = () => {
   return (
-    <div className="flex min-h-[90vh] w-full items-center justify-center">
+    <div className="flex min-h-[90vh] w-full items-center justify-center py-4">
       <Outlet />
     </div>
   );

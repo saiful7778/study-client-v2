@@ -6,7 +6,8 @@ import { routeTree } from "./routeTree.gen";
 import { LoaderFullPage } from "@/pages/Loader";
 import NotFound from "@/pages/NotFound";
 import ErrorPage from "@/pages/Error";
-import useAuth from "./hooks/useAuth";
+import useAuth from "@/hooks/useAuth";
+import { Toaster } from "@/components/ui/toaster";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App: FC = () => {
         }}
       />
       <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
     </QueryClientProvider>
   );
 };

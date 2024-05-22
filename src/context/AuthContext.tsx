@@ -1,4 +1,5 @@
 import { useAxios } from "@/hooks/useAxios";
+import { toast } from "@/hooks/useToast";
 import { auth } from "@/lib/firebase";
 import {
   GoogleAuthProvider,
@@ -64,20 +65,23 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
-      // if (currentUser) {
-      //   axios
-      //     .post("/authentication/signIn", { userEmail: currentUser?.email })
-      //     .then(({ data }) => {
-      //       setUserData(data.userData);
-      //       setToken(data.token);
-      //     })
-      //     .catch((err) => {
-      //       console.error(err);
-      //     });
-      // } else {
-      //   setUserData(undefined);
-      //   setToken(undefined);
-      // }
+      if (currentUser) {
+        axios
+          .post("/authentication/sign_in", { userEmail: currentUser?.email })
+          .then(({ data }) => {
+            setUserData(data.userData);
+            setToken(data.token);
+          })
+          .catch(() => {
+            toast({
+              variant: "destructive",
+              title: "Error to sign in server",
+            });
+          });
+      } else {
+        setUserData(undefined);
+        setToken(undefined);
+      }
 
       setLoader(false);
     });

@@ -3,10 +3,7 @@ import ReactDOM from "react-dom/client";
 import AuthContextProvider from "@/context/AuthContext";
 import StateContextProvider from "@/context/StateContext";
 import "@/assets/styles/global.css";
-
-// Import the generated route tree
-
-import App from "./App";
+import App from "@/App";
 
 // Render the app
 const rootElement = document.getElementById("root")!;

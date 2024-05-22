@@ -26,6 +26,6 @@ import axiosConfig from "@/lib/config/axios.config";
 //   return axiosConfig;
 // };
 
-export const useAxios = () => {
+export function useAxios() {
   return axiosConfig;
-};
+}

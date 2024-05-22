@@ -15,11 +15,13 @@ import useAuth from "@/hooks/useAuth";
 import { updateProfile } from "firebase/auth";
 import useNavigatePage from "@/hooks/useNavigatePage";
 import errorStatus from "@/lib/errorStatus";
+import { useAxios } from "@/hooks/useAxios";
 
 const SingUp: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { signUp } = useAuth();
   const navigate = useNavigatePage();
+  const axios = useAxios();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -39,6 +41,12 @@ const SingUp: FC = () => {
 
       await updateProfile(user, {
         displayName: data.firstName + " " + data?.lastName,
+      });
+
+      await axios.post("/user", {
+        userName: data.firstName + " " + data?.lastName,
+        userEmail: data.email,
+        userToken: user.uid,
       });
 
       toast({

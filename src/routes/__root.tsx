@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
 import { Loader } from "@/pages/Loader";
 import Navbar from "@/shared/Navbar";
 import {
@@ -6,10 +5,10 @@ import {
   createRootRouteWithContext,
   useRouterState,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { QueryClient } from "@tanstack/react-query";
 import { FC } from "react";
 import { User } from "firebase/auth";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 const MainLayout: FC = () => {
   const status = useRouterState({ select: (s) => s.status });
@@ -20,7 +19,6 @@ const MainLayout: FC = () => {
         <Navbar />
       </header>
       {status === "pending" ? <Loader /> : <Outlet />}
-      <Toaster />
       <TanStackRouterDevtools />
     </div>
   );
