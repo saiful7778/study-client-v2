@@ -14,6 +14,7 @@ import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import errorStatus from "@/lib/errorStatus";
+import SocialAuth from "@/components/SocialAuth";
 
 const SignIn: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -100,6 +101,7 @@ const SignIn: FC = () => {
             </Button>
           </form>
         </Form>
+        <SocialAuth />
       </Card.content>
       <Card.footer className="justify-center">
         <p className="text-sm">

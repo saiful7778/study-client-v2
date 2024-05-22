@@ -25,7 +25,9 @@ const UserAuth: FC<UserAuthProps> = ({ className }) => {
                 src={user?.photoURL ?? undefined}
                 alt="user image"
               />
-              <Avatar.fallback>{`${user?.displayName![0]}${user?.displayName![1]}`}</Avatar.fallback>
+              {user?.displayName && (
+                <Avatar.fallback>{`${user?.displayName![0]}${user?.displayName![1]}`}</Avatar.fallback>
+              )}
             </Avatar>
           </DropdownMenu.trigger>
           <DropdownMenu.content align="end">

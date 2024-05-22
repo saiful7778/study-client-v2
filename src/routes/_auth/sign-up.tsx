@@ -16,6 +16,7 @@ import { updateProfile } from "firebase/auth";
 import useNavigatePage from "@/hooks/useNavigatePage";
 import errorStatus from "@/lib/errorStatus";
 import { useAxios } from "@/hooks/useAxios";
+import SocialAuth from "@/components/SocialAuth";
 
 const SingUp: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,7 +35,9 @@ const SingUp: FC = () => {
     },
   });
 
-  const handleSubmit = async (data: z.infer<typeof signUpSchema>) => {
+  const handleSubmit = async (
+    data: z.infer<typeof signUpSchema>,
+  ): Promise<void> => {
     try {
       setLoading((prop) => !prop);
       const { user } = await signUp(data.email, data.password);
@@ -171,6 +174,7 @@ const SingUp: FC = () => {
             </Button>
           </form>
         </Form>
+        <SocialAuth />
       </Card.content>
       <Card.footer className="justify-center">
         <p className="text-sm">
