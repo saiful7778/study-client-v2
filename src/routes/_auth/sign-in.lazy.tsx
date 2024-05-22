@@ -5,21 +5,21 @@ import Card from "@/components/ui/card";
 import Form from "@/components/ui/form";
 import Input from "@/components/ui/input";
 import { toast } from "@/hooks/useToast";
-import useAuth from "@/hooks/useAuth";
 import { signInSchema } from "@/lib/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import errorStatus from "@/lib/errorStatus";
 import SocialAuth from "@/components/SocialAuth";
 import { ToastAction } from "@/components/ui/toast";
+import useAuth from "@/hooks/useAuth";
 
 const SignIn: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { signIn, singOut } = useAuth();
+  const { signIn, signOut } = useAuth();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -40,14 +40,14 @@ const SignIn: FC = () => {
           description: "Click this button to send mail",
           action: <ToastAction altText="Send verify">Send verify</ToastAction>,
         });
-        await singOut();
+        await signOut();
         return;
       }
 
       toast({
         title: `Sign in successfully!`,
       });
-      navigate({ to: "/" });
+      navigate({ to: "/dashboard" });
     } catch (err) {
       if (err instanceof Error) {
         errorStatus(err);
@@ -132,6 +132,6 @@ const SignIn: FC = () => {
   );
 };
 
-export const Route = createFileRoute("/_auth/sign-in")({
+export const Route = createLazyFileRoute("/_auth/sign-in")({
   component: SignIn,
 });

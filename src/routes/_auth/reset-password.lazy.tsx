@@ -8,7 +8,7 @@ import { toast } from "@/hooks/useToast";
 import errorStatus from "@/lib/errorStatus";
 import { resetSchema } from "@/lib/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -92,6 +92,6 @@ const ResetPass: FC = () => {
   );
 };
 
-export const Route = createFileRoute("/_auth/reset-password")({
+export const Route = createLazyFileRoute("/_auth/reset-password")({
   component: ResetPass,
 });

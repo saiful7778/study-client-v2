@@ -1,4 +1,5 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import AuthRouteProtector from "@/routesProtector/AuthRouteProtector";
+import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { FC } from "react";
 
 const AuthLayout: FC = () => {
@@ -10,12 +11,9 @@ const AuthLayout: FC = () => {
 };
 
 export const Route = createFileRoute("/_auth")({
-  beforeLoad: ({ context: { loader, auth } }) => {
-    if (!loader && auth) {
-      throw redirect({
-        to: "/",
-      });
-    }
-  },
-  component: AuthLayout,
+  component: () => (
+    <AuthRouteProtector>
+      <AuthLayout />
+    </AuthRouteProtector>
+  ),
 });

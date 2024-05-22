@@ -1,11 +1,12 @@
 import cn from "@/lib/utils/cn";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { FC } from "react";
-import useAuth from "@/hooks/useAuth";
 import { useAxios } from "@/hooks/useAxios";
 import { toast } from "@/hooks/useToast";
 import useNavigatePage from "@/hooks/useNavigatePage";
 import errorStatus from "@/lib/errorStatus";
+import { SeparatorWithText } from "./ui/separator";
+import useAuth from "@/hooks/useAuth";
 
 const style = {
   base: "border rounded shadow-sm flex flex-1 items-center active:focus:scale-95 text-lg font-bold gap-2 p-2 justify-center",
@@ -29,7 +30,7 @@ const SocialAuth: FC = () => {
         title: `Sign up successfully!`,
         description: `'${user.email}' account is created.`,
       });
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       if (err instanceof Error) {
         errorStatus(err);
@@ -46,24 +47,27 @@ const SocialAuth: FC = () => {
   };
 
   return (
-    <div className="my-2 flex flex-col justify-center gap-2 md:flex-row">
-      <button
-        onClick={handleGoogleAuth}
-        className={cn(style.base, "border-green-500 text-green-500")}
-        type="button"
-      >
-        <FaGoogle />
-        Google
-      </button>
-      <button
-        onClick={handleFacebookAuth}
-        className={cn(style.base, "border-sky-600 text-sky-600")}
-        type="button"
-      >
-        <FaFacebook />
-        Facebook
-      </button>
-    </div>
+    <>
+      <SeparatorWithText text="Or continue with" />
+      <div className="my-2 flex flex-col justify-center gap-2 md:flex-row">
+        <button
+          onClick={handleGoogleAuth}
+          className={cn(style.base, "border-green-500 text-green-500")}
+          type="button"
+        >
+          <FaGoogle />
+          Google
+        </button>
+        <button
+          onClick={handleFacebookAuth}
+          className={cn(style.base, "border-sky-600 text-sky-600")}
+          type="button"
+        >
+          <FaFacebook />
+          Facebook
+        </button>
+      </div>
+    </>
   );
 };
 

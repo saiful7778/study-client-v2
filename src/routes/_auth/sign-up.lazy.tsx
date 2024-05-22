@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createLazyFileRoute } from "@tanstack/react-router";
 import { FC, useState } from "react";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
@@ -11,16 +11,16 @@ import { signUpSchema } from "@/lib/schemas/authSchema";
 import Card from "@/components/ui/card";
 import Password from "@/components/Password";
 import Spinner from "@/components/Spinner";
-import useAuth from "@/hooks/useAuth";
 import { sendEmailVerification, updateProfile } from "firebase/auth";
 import useNavigatePage from "@/hooks/useNavigatePage";
 import errorStatus from "@/lib/errorStatus";
 import { useAxios } from "@/hooks/useAxios";
 import SocialAuth from "@/components/SocialAuth";
+import useAuth from "@/hooks/useAuth";
 
 const SingUp: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { signUp, singOut } = useAuth();
+  const { signUp, signOut } = useAuth();
   const navigate = useNavigatePage();
   const axios = useAxios();
 
@@ -62,7 +62,7 @@ const SingUp: FC = () => {
         description: "Verify your account please.",
       });
       await sendEmailVerification(user);
-      await singOut();
+      await signOut();
 
       navigate("/");
     } catch (err) {
@@ -196,6 +196,6 @@ const SingUp: FC = () => {
   );
 };
 
-export const Route = createFileRoute("/_auth/sign-up")({
+export const Route = createLazyFileRoute("/_auth/sign-up")({
   component: SingUp,
 });

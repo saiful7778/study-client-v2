@@ -1,17 +1,7 @@
 import { useAxios } from "@/hooks/useAxios";
 import { toast } from "@/hooks/useToast";
 import { auth } from "@/lib/firebase";
-import {
-  GoogleAuthProvider,
-  UserCredential,
-  User,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut as logOut,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-} from "firebase/auth";
+import { User, onAuthStateChanged } from "firebase/auth";
 import { ReactNode, createContext, useState, FC, useEffect } from "react";
 
 interface AuthContextType {
@@ -19,17 +9,12 @@ interface AuthContextType {
   userData: object | undefined;
   token: string | undefined;
   loader: boolean;
-  googleAuth: () => Promise<UserCredential>;
-  signUp: (email: string, pass: string) => Promise<UserCredential>;
-  signIn: (email: string, pass: string) => Promise<UserCredential>;
-  singOut: () => Promise<void>;
-  resetPass: (email: string) => Promise<void>;
+  setLoader: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined,
 );
-const googleProvider = new GoogleAuthProvider();
 
 interface AuthContextProviderProps {
   children: ReactNode;
@@ -42,28 +27,6 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
   const [loader, setLoader] = useState<boolean>(true);
 
   const axios = useAxios();
-
-  const googleAuth = () => {
-    setLoader(true);
-    return signInWithPopup(auth, googleProvider);
-  };
-
-  const signUp = (email: string, pass: string) => {
-    setLoader(true);
-    return createUserWithEmailAndPassword(auth, email, pass);
-  };
-
-  const signIn = (email: string, pass: string) => {
-    setLoader(true);
-    return signInWithEmailAndPassword(auth, email, pass);
-  };
-
-  const resetPass = (email: string) => sendPasswordResetEmail(auth, email);
-
-  const singOut = () => {
-    setLoader(true);
-    return logOut(auth);
-  };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -98,15 +61,11 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        signUp,
-        signIn,
-        singOut,
-        googleAuth,
+        setLoader,
         loader,
         user,
         userData,
         token,
-        resetPass,
       }}
     >
       {children}

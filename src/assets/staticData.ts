@@ -9,16 +9,8 @@ export const navLinks = [
     hasDropDown: true,
     dropDown: [
       {
-        navName: "create assignment",
-        path: "/assignments/create_new",
-      },
-      {
-        navName: "my assignments",
-        path: "/assignments/my_assignments",
-      },
-      {
-        navName: "my submission",
-        path: "/assignments/submit",
+        navName: "All assignment",
+        path: "/assignments",
       },
       {
         navName: "submitted assignment",
@@ -69,5 +61,16 @@ export const footerNavLinks = [
   {
     navName: "submitted assignments",
     path: "/assignments/submit",
+  },
+];
+
+export const dashboardLinks = [
+  {
+    navName: "Dashboard",
+    path: "/dashboard",
+  },
+  {
+    navName: "Profile",
+    path: "/profile",
   },
 ];

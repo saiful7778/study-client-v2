@@ -1,18 +1,20 @@
 import { FC } from "react";
 import Button from "@/components/ui/button";
-import useAuth from "@/hooks/useAuth";
 import cn from "@/lib/utils/cn";
 import useNavigatePage from "@/hooks/useNavigatePage";
 import Avatar from "@/components/ui/avatar";
 import DropdownMenu from "./ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
+import useAuth from "@/hooks/useAuth";
+import useAuthInfo from "@/hooks/useAuthInfo";
 
 interface UserAuthProps {
   className?: string;
 }
 
 const UserAuth: FC<UserAuthProps> = ({ className }) => {
-  const { user, singOut } = useAuth();
+  const { signOut } = useAuth();
+  const { user } = useAuthInfo();
   const navigate = useNavigatePage();
 
   return (
@@ -35,12 +37,19 @@ const UserAuth: FC<UserAuthProps> = ({ className }) => {
               <div className="text-sm leading-3">{user.displayName}</div>
               <div className="text-xs text-gray-500">{user.email}</div>
             </div>
+            <DropdownMenu.separator />
             <DropdownMenu.item>
-              <Link className="block w-full">Dashboard</Link>
+              <Link to="/dashboard" className="block w-full">
+                Dashboard
+              </Link>
             </DropdownMenu.item>
-            <Button className="w-full" onClick={singOut} size="sm">
-              logout
-            </Button>
+            <DropdownMenu.separator />
+            <DropdownMenu.item
+              onClick={signOut}
+              className="cursor-pointer justify-center bg-destructive"
+            >
+              Logout
+            </DropdownMenu.item>
           </DropdownMenu.content>
         </DropdownMenu>
       ) : (

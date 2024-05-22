@@ -6,7 +6,7 @@ import { routeTree } from "./routeTree.gen";
 import { LoaderFullPage } from "@/pages/Loader";
 import NotFound from "@/pages/NotFound";
 import ErrorPage from "@/pages/Error";
-import useAuth from "@/hooks/useAuth";
+import useAuthInfo from "@/hooks/useAuthInfo";
 import { Toaster } from "@/components/ui/toaster";
 
 const queryClient = new QueryClient();
@@ -35,7 +35,7 @@ declare module "@tanstack/react-router" {
 }
 
 const App: FC = () => {
-  const { user, loader, userData, token } = useAuth();
+  const { user, loader, userData, token } = useAuthInfo();
 
   return (
     <QueryClientProvider client={queryClient}>
