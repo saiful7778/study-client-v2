@@ -1,7 +1,7 @@
 import { useAxios } from "@/hooks/useAxios";
 import { toast } from "@/hooks/useToast";
 import { auth } from "@/lib/firebase";
-import { User, onAuthStateChanged } from "firebase/auth";
+import { User, onAuthStateChanged, signOut } from "firebase/auth";
 import { ReactNode, createContext, useState, FC, useEffect } from "react";
 
 interface AuthContextType {
@@ -33,6 +33,7 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
       setUser(currentUser);
 
       if (currentUser && currentUser?.emailVerified) {
+        localStorage.setItem("auth", currentUser.email!);
         axios
           .post("/authentication/sign_in", { userEmail: currentUser?.email })
           .then(({ data }) => {
@@ -40,12 +41,18 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
             setToken(data.token);
           })
           .catch(() => {
+            signOut(auth);
+            localStorage.setItem("auth", "");
+            setUser(null);
+            setUserData(undefined);
+            setToken(undefined);
             toast({
               variant: "destructive",
               title: "Error to sign in server",
             });
           });
       } else {
+        localStorage.setItem("auth", "");
         setUserData(undefined);
         setToken(undefined);
       }

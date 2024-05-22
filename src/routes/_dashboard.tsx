@@ -1,6 +1,5 @@
-import PrivateRouteProtector from "@/routesProtector/PrivateRouteProtector";
 import Sidebar from "@/shared/Sidebar";
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import { FC } from "react";
 
 const DashboardLayout: FC = () => {
@@ -15,9 +14,14 @@ const DashboardLayout: FC = () => {
 };
 
 export const Route = createFileRoute("/_dashboard")({
-  component: () => (
-    <PrivateRouteProtector>
-      <DashboardLayout />
-    </PrivateRouteProtector>
-  ),
+  beforeLoad: () => {
+    const auth = localStorage.getItem("auth");
+
+    if (!auth) {
+      throw redirect({
+        to: "/sign-in",
+      });
+    }
+  },
+  component: DashboardLayout,
 });
