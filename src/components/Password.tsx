@@ -1,14 +1,13 @@
-import { FC, useState } from "react";
+import { useState, forwardRef } from "react";
 import Input, { InputProps } from "./ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import Button from "./ui/button";
 
-interface PasswordProps extends InputProps {}
-
-const Password: FC<PasswordProps> = ({ ...props }) => {
+const Password = forwardRef<HTMLDivElement, InputProps>(({ ...props }, ref) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       <Input type={showPassword ? "text" : "password"} {...props} />
       <div className="absolute right-2 top-1/2 -translate-y-[45%]">
         <Button
@@ -22,6 +21,7 @@ const Password: FC<PasswordProps> = ({ ...props }) => {
       </div>
     </div>
   );
-};
+});
+Password.displayName = "Password";
 
 export default Password;
