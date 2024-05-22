@@ -6,7 +6,7 @@ import Form from "@/components/ui/form";
 import Input from "@/components/ui/input";
 import { toast } from "@/hooks/useToast";
 import useAuth from "@/hooks/useAuth";
-import { signInSchema } from "@/lib/schemas/signInSchema";
+import { signInSchema } from "@/lib/schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { Link, createFileRoute } from "@tanstack/react-router";
@@ -103,6 +103,12 @@ const SignIn: FC = () => {
                       disabled={loading}
                     />
                   </Form.control>
+                  <Link
+                    className="text-sm font-medium text-muted-foreground hover:underline"
+                    to="/reset-password"
+                  >
+                    Reset password?
+                  </Link>
                   <Form.message />
                 </Form.item>
               )}

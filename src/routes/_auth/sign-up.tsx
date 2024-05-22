@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Form from "@/components/ui/form";
 import { toast } from "@/hooks/useToast";
-import { signUpSchema } from "@/lib/schemas/signUpSchema";
+import { signUpSchema } from "@/lib/schemas/authSchema";
 import Card from "@/components/ui/card";
 import Password from "@/components/Password";
 import Spinner from "@/components/Spinner";

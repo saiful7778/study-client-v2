@@ -10,6 +10,7 @@ import {
   signInWithPopup,
   signOut as logOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { ReactNode, createContext, useState, FC, useEffect } from "react";
 
@@ -22,6 +23,7 @@ interface AuthContextType {
   signUp: (email: string, pass: string) => Promise<UserCredential>;
   signIn: (email: string, pass: string) => Promise<UserCredential>;
   singOut: () => Promise<void>;
+  resetPass: (email: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -55,6 +57,8 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
     setLoader(true);
     return signInWithEmailAndPassword(auth, email, pass);
   };
+
+  const resetPass = (email: string) => sendPasswordResetEmail(auth, email);
 
   const singOut = () => {
     setLoader(true);
@@ -102,6 +106,7 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
         user,
         userData,
         token,
+        resetPass,
       }}
     >
       {children}
