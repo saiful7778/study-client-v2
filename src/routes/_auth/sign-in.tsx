@@ -15,10 +15,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import errorStatus from "@/lib/errorStatus";
 import SocialAuth from "@/components/SocialAuth";
+import { ToastAction } from "@/components/ui/toast";
 
 const SignIn: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { signIn } = useAuth();
+  const { signIn, singOut } = useAuth();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -31,7 +32,17 @@ const SignIn: FC = () => {
   const handleSubmit = async (data: z.infer<typeof signInSchema>) => {
     try {
       setLoading((prop) => !prop);
-      await signIn(data.email, data.password);
+      const { user } = await signIn(data.email, data.password);
+
+      if (!user?.emailVerified) {
+        toast({
+          title: "Please verify your account",
+          description: "Click this button to send mail",
+          action: <ToastAction altText="Send verify">Send verify</ToastAction>,
+        });
+        await singOut();
+        return;
+      }
 
       toast({
         title: `Sign in successfully!`,

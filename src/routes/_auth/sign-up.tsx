@@ -12,7 +12,7 @@ import Card from "@/components/ui/card";
 import Password from "@/components/Password";
 import Spinner from "@/components/Spinner";
 import useAuth from "@/hooks/useAuth";
-import { updateProfile } from "firebase/auth";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
 import useNavigatePage from "@/hooks/useNavigatePage";
 import errorStatus from "@/lib/errorStatus";
 import { useAxios } from "@/hooks/useAxios";
@@ -20,7 +20,7 @@ import SocialAuth from "@/components/SocialAuth";
 
 const SingUp: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { signUp } = useAuth();
+  const { signUp, singOut } = useAuth();
   const navigate = useNavigatePage();
   const axios = useAxios();
 
@@ -56,6 +56,14 @@ const SingUp: FC = () => {
         title: `Sign up successfully!`,
         description: `'${data.email}' account is created.`,
       });
+
+      toast({
+        title: "Verification email sended!",
+        description: "Verify your account please.",
+      });
+      await sendEmailVerification(user);
+      await singOut();
+
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {

@@ -65,7 +65,7 @@ const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
 
-      if (currentUser) {
+      if (currentUser && currentUser?.emailVerified) {
         axios
           .post("/authentication/sign_in", { userEmail: currentUser?.email })
           .then(({ data }) => {
