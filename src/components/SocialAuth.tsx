@@ -46,7 +46,7 @@ const SocialAuth: FC = () => {
   };
 
   return (
-    <div className="my-2 flex justify-center gap-2">
+    <div className="my-2 flex flex-col justify-center gap-2 md:flex-row">
       <button
         onClick={handleGoogleAuth}
         className={cn(style.base, "border-green-500 text-green-500")}

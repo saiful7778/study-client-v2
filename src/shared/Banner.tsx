@@ -6,7 +6,7 @@ const Banner = () => {
   const navigate = useNavigatePage();
 
   return (
-    <div className="flex min-h-[80vh] flex-col items-center justify-between gap-4 lg:flex-row">
+    <div className="flex min-h-[80vh] flex-col items-center justify-between gap-4 py-6 lg:flex-row">
       <div className="w-full space-y-6 max-lg:text-center lg:w-1/2">
         <p className="mb-1 font-medium uppercase tracking-[8px]">
           Welcome to study!
@@ -22,9 +22,7 @@ const Banner = () => {
           together.
         </p>
         <div className="flex items-center gap-2">
-          <Button onClick={() => navigate("/authentication/register")}>
-            Register now
-          </Button>
+          <Button onClick={() => navigate("/sign-up")}>Sign up now</Button>
           <Button variant="outline" onClick={() => navigate("/assignments")}>
             Take an assignment
           </Button>
