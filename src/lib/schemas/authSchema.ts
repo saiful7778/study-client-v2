@@ -27,3 +27,10 @@ export const signInSchema = z.object({
 export const resetSchema = z.object({
   email: z.string().email(),
 });
+
+export const userSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().optional(),
+  photo: z.any().optional(),
+  email: z.string().email(),
+});

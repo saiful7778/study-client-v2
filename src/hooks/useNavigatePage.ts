@@ -1,6 +1,6 @@
 import { FileRoutesByPath, useNavigate } from "@tanstack/react-router";
 
-type ExtractPaths<T> = T extends { [K in keyof T]: { path: infer P } }
+export type ExtractPaths<T> = T extends { [K in keyof T]: { path: infer P } }
   ? P extends ""
     ? never
     : P

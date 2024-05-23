@@ -4,7 +4,6 @@ import cn from "@/lib/utils/cn";
 import useNavigatePage from "@/hooks/useNavigatePage";
 import Avatar from "@/components/ui/avatar";
 import DropdownMenu from "./ui/dropdown-menu";
-import { Link } from "@tanstack/react-router";
 import useAuth from "@/hooks/useAuth";
 import useAuthInfo from "@/hooks/useAuthInfo";
 
@@ -33,15 +32,16 @@ const UserAuth: FC<UserAuthProps> = ({ className }) => {
             </Avatar>
           </DropdownMenu.trigger>
           <DropdownMenu.content align="end">
-            <div className="p-1">
+            <div className="px-1 pt-1">
               <div className="text-sm leading-3">{user.displayName}</div>
               <div className="text-xs text-gray-500">{user.email}</div>
             </div>
             <DropdownMenu.separator />
-            <DropdownMenu.item>
-              <Link to="/dashboard" className="block w-full">
-                Dashboard
-              </Link>
+            <DropdownMenu.item onClick={() => navigate("/dashboard")}>
+              Dashboard
+            </DropdownMenu.item>
+            <DropdownMenu.item onClick={() => navigate("/profile")}>
+              Profile
             </DropdownMenu.item>
             <DropdownMenu.separator />
             <DropdownMenu.item

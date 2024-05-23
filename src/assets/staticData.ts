@@ -1,4 +1,17 @@
-export const navLinks = [
+import { ExtractPaths } from "@/hooks/useNavigatePage";
+import { FileRoutesByPath } from "@tanstack/react-router";
+
+type LinkTypes = {
+  navName: string;
+  path: ExtractPaths<FileRoutesByPath>;
+};
+
+type navLinkTypes = LinkTypes & {
+  hasDropDown?: boolean | undefined;
+  dropDown?: LinkTypes[] | undefined;
+};
+
+export const navLinks: navLinkTypes[] = [
   {
     navName: "home",
     path: "/",
@@ -20,7 +33,12 @@ export const navLinks = [
   },
 ];
 
-export const faqData = [
+type faqDataTypes = {
+  header: string;
+  content: string;
+};
+
+export const faqData: faqDataTypes[] = [
   {
     header: "How do I create a study group?",
     content:
@@ -48,23 +66,15 @@ export const faqData = [
   },
 ];
 
-export const footerNavLinks = [
+export const footerNavLinks: LinkTypes[] = [
   { navName: "all assignment", path: "/assignments" },
   {
-    navName: "create assignment",
-    path: "/assignments/create_new",
-  },
-  {
-    navName: "my assignments",
-    path: "/assignments/my_assignments",
-  },
-  {
     navName: "submitted assignments",
-    path: "/assignments/submit",
+    path: "/assignments/submitted",
   },
 ];
 
-export const dashboardLinks = [
+export const dashboardLinks: LinkTypes[] = [
   {
     navName: "Dashboard",
     path: "/dashboard",

@@ -3,6 +3,7 @@ import axiosConfig from "@/lib/config/axios.config";
 import useAuth from "./useAuth";
 import useNavigatePage from "./useNavigatePage";
 import { AxiosInstance } from "axios";
+import { toast } from "./useToast";
 
 export function useAxiosSecure(): AxiosInstance {
   const { signOut } = useAuth();
@@ -13,13 +14,19 @@ export function useAxiosSecure(): AxiosInstance {
       (res) => {
         return res;
       },
-      (err) => {
+      async (err) => {
         if (err.response.status === 401 || err.response.status === 403) {
-          signOut()
-            .then(() => {
-              navigate("/sign-in");
-            })
-            .catch((err) => console.error(err));
+          try {
+            await signOut();
+            navigate("/sign-in");
+          } catch (err) {
+            if (err instanceof Error) {
+              toast({
+                variant: "destructive",
+                title: "Unauthorized access",
+              });
+            }
+          }
         }
       },
     );

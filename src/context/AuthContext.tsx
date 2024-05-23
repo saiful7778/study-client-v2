@@ -6,7 +6,15 @@ import { ReactNode, createContext, useState, FC, useEffect } from "react";
 
 interface AuthContextType {
   user: User | null;
-  userData: object | undefined;
+  userData:
+    | {
+        _id: string;
+        userEmail: string;
+        userToken: string;
+        userRole: string;
+        userBadge: string;
+      }
+    | undefined;
   token: string | undefined;
   loader: boolean;
   setLoader: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +30,16 @@ interface AuthContextProviderProps {
 
 const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<object | undefined>(undefined);
+  const [userData, setUserData] = useState<
+    | {
+        _id: string;
+        userEmail: string;
+        userToken: string;
+        userRole: string;
+        userBadge: string;
+      }
+    | undefined
+  >(undefined);
   const [token, setToken] = useState<string | undefined>(undefined);
   const [loader, setLoader] = useState<boolean>(true);
 

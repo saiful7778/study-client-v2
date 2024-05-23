@@ -6,7 +6,7 @@ const DashboardLayout: FC = () => {
   return (
     <main className="flex flex-col gap-2 py-8 md:flex-row">
       <Sidebar />
-      <div className="p-2">
+      <div className="flex-1 p-2">
         <Outlet />
       </div>
     </main>
